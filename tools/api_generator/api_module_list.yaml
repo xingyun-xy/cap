@@ -1,0 +1,34 @@
+callbacks:
+  docstring:
+    - "Callbacks widely used while training in CAP."
+data:
+  docstring:
+    - "Main data module for training in CAP, which contains datasets, transforms, samplers."
+engine:
+  docstring:
+    - "Engine of the main train loop in CAP."
+metrics:
+  docstring:
+    - "Metrics widely used for different datasets in CAP."
+models:
+  docstring:
+    - "Models widely used in upper module in CAP."
+  ignore:
+    - base_modules
+    - contrib
+    - OutputModule
+    - VectorNetBackbone
+    - HeatmapHead
+    - MultiPathHead
+    - MultiPathLiteHead
+    - TrajRegHead
+    - MultipathPreProcess
+    - BasicVectorNet
+    - MaxPointsSampler
+    - Multipath
+profiler:
+  docstring:
+    - "Profilers widely used for perf in CAP."
+visualize:
+  docstring:
+    - "Visualize code snippets for various task."

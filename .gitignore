@@ -1,0 +1,107 @@
+dist/
+*cap*.egg-info/
+ut_result/
+cov_result/
+*/**/__pycache__
+*/__pycache__
+*/*.pyc
+*/**/*.pyc
+*/**/**/*.pyc
+*/**/*~
+*~
+.idea/*
+.coverage*
+.cap_logs
+htmlcov
+.*.swp
+*.so*
+*.dylib*
+*/*.so*
+*/*.dylib*
+*.swp
+*.swo
+gen.yml
+.mypy_cache
+.vscode
+tmp_*
+.tmp_*
+.ipynb_checkpoint/*
+*res
+
+# big files
+**/*.npy
+**/*.pth.tar
+**/*.pkl
+**/*.xml
+**/*.pt
+**/*.hbir
+**/*.dot
+**/*.json
+**/*.hbm
+**/*.log
+**/*.tar
+**/*.tar.gz
+**/*.tgz
+**/*.zip
+**/*.bin
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.bmp
+**/*.pth
+**/*.rec
+**/*.lmdb
+**/*.params
+
+# real3d related
+exp/
+real3d_viz_results/
+!projects/fsd/app/real3d/attribute/*.json
+
+# submit
+plugins/k8s_submit/*.yaml
+
+# git mergetool
+*.orig
+
+# docs
+docs/build
+!docs/Makefile
+!docs/source/_static/*.png
+!projects/pilot/docs/resources/imgs/*/*.png
+!projects/pilot/docs/resources/imgs/*/*.jpg
+
+
+# pilot release package
+projects/pilot/release_package
+
+# generated file
+cap/_version.py
+
+GNUmakefile
+
+# hbdk-model-verifier output
+hbmv_*
+
+# pt_inference
+!projects/fsd/inference/pt_inference/mt-6v/test.jpeg
+
+# fsd release package
+projects/fsd/app/.ipynb_checkpoints
+projects/fsd/docs/_build
+projects/fsd/docs/source/fsd_config
+
+*.onnx
+onnx/
+wxf_tools/
+zxl_tools/
+ckpt/
+
+# pilot data
+projects/pilot/pack_tools/data/
+
+# bev eval
+!bev_eval/**/*.json
+
+results/
+changan_car/

@@ -1,0 +1,28 @@
+# dependencies for development(lint, tests and docs).
+coverage
+pytest
+pytest-xdist
+pytest-pythonpath
+pytest-cov
+pytest-html
+pytest-repeat
+pre-commit==2.13.0
+pre-commit-hooks==4.0.1
+isort==5.6.4
+flake8==3.9.2
+flake8-bugbear==21.4.3
+flake8-comprehensions==3.6.0
+autoflake==1.4
+black==21.7b0
+click==8.0.2
+tomli==1.2.3
+pydocstyle==6.1.1
+pep8-naming==0.12.1
+# type check
+mypy==0.910
+# docs
+sphinx==4.0.2
+sphinx-gallery
+sphinx-rtd-theme==0.5.2
+myst_parser==0.16.1
+sphinxcontrib-mermaid

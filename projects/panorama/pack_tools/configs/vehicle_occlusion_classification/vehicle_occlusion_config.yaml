@@ -1,0 +1,58 @@
+base_classname: vehicle                                  # 一级类型名称
+num_classes: 5                                          # 类别数量
+remove_empty_images: true                               # 删除空图片
+shuffle: true                                           # 打乱图片顺序
+parent_box_classname: vehicle_full
+parent_box_remove_condiction:
+  range: {field: attrs.score, lt: 0.18}                         # obj["attrs"]["score"] < 0.18
+children_box_classname: vehicle
+children_box_ignore_condiction:
+  contains: {attrs: {ignore: "yes"}}
+min_ignore_overlap: 0.5
+min_match_iou: 0.5
+max_fp_iou: 0.3
+fp_id: 5
+remove_zh_image_path: true                              # 删除中文路径图片
+class_mappers:                                          # 目标类别转换器
+  - id: null                                                  # 空类, 用于删除样本
+    match_condiction:                                         # 为真值, 则匹配成功
+      or:                                                         # 以下任一条件为真, 则输出真
+#        - contains: {attrs: {confidence: Low}}                        # 包含{"attrs": {"confidence": "Low"}}
+        - contains: {attrs: {confidence: VeryLow}}                    # 包含{"attrs": {"confidence": "VeryLow"}}
+        - contains: {attrs: {type: unknown}}                          # 包含{"attrs": {"type": "unknown"}}
+        - contains: {attrs: {part: unknown}}                          # 包含{"attrs": {"part": "unknown"}}
+        - contains: {attrs: {part: other}}                            # 包含{"attrs": {"part": "other"}}
+        - range: {field: $BBOX_HEIGHT, lt: 10}                        # 高度 < 10
+        - range: {field: $BBOX_WIDTH, lt: 10}                         # 宽度 < 10
+  - id: 5
+    name: unknown
+    match_condiction:
+      or: 
+      - contains: {attrs: {type: Bike}}                             # 包含{"attrs": {"type": "Bike"}}
+      - contains: {attrs: {type: Motercycling}}                     # 包含{"attrs": {"type": "Motercycling"}}
+      - contains: {attrs: {type: Motorcycle}}                       # 包含{"attrs": {"type": "Motorcycle"}}
+      - contains: {attrs: {type: Motorcycle_electrombile}}          # 包含{"attrs": {"type": "Motorcycle_electrombile"}}
+  - id: 1
+    name: full_visible
+    match_condiction:                                         # 为真值, 则匹配为该类别
+      or:
+      - contains: {attrs: {occlusion: full_visible}}                # 包含{"attrs": {"occlusion": "full_visible"}}
+      - contains: {attrs: {occlusion: full_visible_a}}                # 包含{"attrs": {"occlusion": "full_visible"}}
+  - id: 2
+    name: occluded
+    match_condiction:                                         # 为真值, 则匹配为该类别
+      or:
+      - contains: {attrs: {occlusion: occluded}}                    # 包含{"attrs": {"occlusion": "occluded"}}
+      - contains: {attrs: {occlusion: occluded_b}}                    # 包含{"attrs": {"occlusion": "occluded"}}
+  - id: 3
+    name: heavily_occluded
+    match_condiction:                                         # 为真值, 则匹配为该类别
+      or:
+        - contains: {attrs: {occlusion: heavily_occluded}}            # 包含{"attrs": {"occlusion": "heavily_occluded"}}
+        - contains: {attrs: {occlusion: heavily_occluded_c}}          # 包含{"attrs": {"occlusion": "heavily_occluded"}}
+  - id: 4
+    name: invisible
+    match_condiction:                                         # 为真值, 则匹配为该类别
+      or:
+        - contains: {attrs: {occlusion: invisible}}                   # 包含{"attrs": {"occlusion": "invisible"}}
+        - contains: {attrs: {occlusion: invisible_d}}                   # 包含{"attrs": {"occlusion": "invisible_d"}}

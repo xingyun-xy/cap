@@ -1,0 +1,43 @@
+base_classname: vehicle                                 # 一级类型名称
+num_classes: 20                                         # 类别数量
+allow_multi_match: false                                # 允许一个instance进行多次匹配
+default_ignore_full_image: true                         # 未定义的类别使用全图ignore
+remove_empty_images: false                              # 删除空图片
+remove_zh_image_path: false                             # 删除中文路径图片
+shuffle: true                                           # 打乱图片顺序
+class_mappers:                                          # 目标类别转换器
+- id: null                                                  # 空类, 用于删除样本
+  match_condiction:                                         # 为真值, 则匹配成功
+    or:                                                         # 以下任一条件为真, 则输出真
+    - contains: {attrs: {type: Bike}}                               # 包含{"attrs": {"type": "Bike"}}
+    - contains: {attrs: {type: Motorcycle_electrombile}}            # 包含{"attrs": {"type": "Motorcycle_electrombile"}}
+    - contains: {attrs: {type: Motorcycle}}                         # 包含{"attrs": {"type": "Motorcycle"}}
+    - contains: {attrs: {type: unknown}}                  # 包含{"attrs": {"type": "unknown"}}
+- id: 4
+  name: vehicle
+  match_condiction:                                         # 为真值, 则匹配为该类别
+    or:                                                         # 以下任一条件为真, 则输出真
+    - contains: {attrs: {type: Sedan_Car}}                      # 包含{"attrs": {"type": "Sedan_Car"}}
+    - contains: {attrs: {type: Bus}}                            # 包含{"attrs": {"type": "Bus"}}
+    - contains: {attrs: {type: SUV}}                            # 包含{"attrs": {"type": "SUV"}}
+    - contains: {attrs: {type: BigTruck}}                       # 包含{"attrs": {"type": "BigTruck"}}
+    - contains: {attrs: {type: SmallTruck}}                     # 包含{"attrs": {"type": "SmallTruck"}}
+    - contains: {attrs: {type: MiniVan}}                        # 包含{"attrs": {"type": "MiniVan"}}
+    - contains: {attrs: {type: Lorry}}                          # 包含{"attrs": {"type": "Lorry"}}
+    - contains: {attrs: {type: Special_vehicle}}                # 包含{"attrs": {"type": "Special_vehicle"}}
+    - contains: {attrs: {type: Motor-Tricycle}}                 # 包含{"attrs": {"type": "Motor-Tricycle"}}
+    - contains: {attrs: {type: Tricycle}}                       # 包含{"attrs": {"type": "Tricycle"}}
+  ignore_condiction:                                        # 为真值, 则判定为ignore区域
+    contains: {attrs: {ignore: "yes"}}                          # 包含{"attrs": {"ignore": "yes"}}
+  hard_condiction:                                          # 为真值, 则判定为hard样本
+    and:                                                        # 以下所有条件为真, 则输出真
+    - not:                                                          # 条件为假, 则输出真
+        contains: {attrs: {ignore: "yes"}}                              # 包含{"attrs": {"ignore": "yes"}}
+    - or:                                                       # 以下任一条件为真, 则输出真
+      - contains: {attrs: {occlusion: heavily_occluded}}            # 包含{"attrs": {"occlusion": "heavily_occluded"}}
+      - contains: {attrs: {occlusion: invisible}}                   # 包含{"attrs": {"occlusion": "invisible"}}
+      - contains: {attrs: {type: others}}                   # 包含{"attrs": {"type": "others"}}
+      - contains: {attrs: {type: Non-Motor Vehicle_others}} # 包含{"attrs": {"type": "Non-Motor Vehicle_others"}}
+      - or:                                                         # 以下所有条件为真, 则输出真
+        - range: {field: $BBOX_HEIGHT, lt: 8}                          # 高度 < 8
+        - range: {field: $BBOX_WIDTH, lt: 8}                           # 宽度 < 8

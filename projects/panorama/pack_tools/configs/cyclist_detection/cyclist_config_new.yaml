@@ -1,0 +1,113 @@
+base_classname: person                                  # 一级类型名称
+num_classes: 50                                        # 类别数量
+allow_multi_match: true                                 # 允许一个instance进行多次匹配
+default_ignore_full_image: true                         # 未定义的类别使用全图ignore
+remove_empty_images: true                               # 删除空图片
+shuffle: true                                           # 打乱图片顺序
+class_mappers:                                          # 目标类别转换器
+- id: 7
+  name: cyclist
+  upsample: 30  # big object
+  match_condiction:                                         # 为真值, 则匹配为该类别
+    and:
+      - range: {field: $BBOX_HEIGHT, gt: 300}                        # bbox高度 > 47(<30m), for pilot
+      - or:
+        - contains: {attrs: {type: PersnPushTricycle}}
+        - contains: {attrs: {type: PersonPushBicycle}}
+        - contains: {attrs: {type: PersonPushMotorcycle}}
+        - contains: {attrs: {type: PersonRideBicycle}}
+        - contains: {attrs: {type: PersonRideMotorcycle}}
+        - contains: {attrs: {type: PersonRideTricycle}}
+        #- contains: {attrs: {type:
+        #- contains: {attrs: {type: WithWheelchair}}
+  ignore_condiction:
+    or:
+    - contains: {attrs: {ignore: "yes"}}
+    - contains: {attrs: {type: PersnPushTricycle}}
+    - contains: {attrs: {type: PersonPushBicycle}}
+    - contains: {attrs: {type: PersonPushMotorcycle}}
+    - contains: {attrs: {type: PersonRideTricycle}}
+  hard_condition:
+    and:
+    - not:
+      contains: {attrs: {ignore: "yes"}}
+    - or:
+      #- contains: {attrs: {occlusion: heavily_occluded}}
+      - contains: {attrs: {occlusion: invisible}}
+      - contains: {attrs: {confidence: Low}}
+      - contains: {attrs: {confidence: VeryLow}}
+      #- contains: {attrs: {type: PersonPushMotorcycle}}
+      #- contains: {attrs: {type: PersonPushBicycle}}
+      #- contains: {attrs: {type: PersnPushTricycle}}
+- id: 7
+  name: cyclist
+  upsample: 3  # big object
+  match_condiction:                                         # 为真值, 则匹配为该类别
+    and:
+      - range: {field: $BBOX_HEIGHT, gt: 63}                        # bbox高度 > 47(<30m), for pilot
+      - range: {field: $BBOX_HEIGHT, lt: 300}                        # bbox高度 < 55
+      - or:
+        - contains: {attrs: {type: PersnPushTricycle}}
+        - contains: {attrs: {type: PersonPushBicycle}}
+        - contains: {attrs: {type: PersonPushMotorcycle}}
+        - contains: {attrs: {type: PersonRideBicycle}}
+        - contains: {attrs: {type: PersonRideMotorcycle}}
+        - contains: {attrs: {type: PersonRideTricycle}}
+        #- contains: {attrs: {type:
+        #- contains: {attrs: {type: WithWheelchair}}
+  ignore_condiction:
+    or:
+    - contains: {attrs: {ignore: "yes"}}
+    - contains: {attrs: {type: PersnPushTricycle}}
+    - contains: {attrs: {type: PersonPushBicycle}}
+    - contains: {attrs: {type: PersonPushMotorcycle}}
+    - contains: {attrs: {type: PersonRideTricycle}}
+  hard_condition:
+    and:
+    - not:
+      contains: {attrs: {ignore: "yes"}}
+    - or:
+      #- contains: {attrs: {occlusion: heavily_occluded}}
+      - contains: {attrs: {occlusion: invisible}}
+      - contains: {attrs: {confidence: Low}}
+      - contains: {attrs: {confidence: VeryLow}}
+      #- contains: {attrs: {type: PersonPushMotorcycle}}
+      #- contains: {attrs: {type: PersonPushBicycle}}
+      #- contains: {attrs: {type: PersnPushTricycle}}
+- id: 7
+  name: cyclist
+  upsample: 1  # big object
+  match_condiction:                                         # 为真值, 则匹配为该类别
+    and:
+      - range: {field: $BBOX_HEIGHT, lt: 63}                        # bbox高度 > 63(<30m), for pilot
+      - or:
+        - contains: {attrs: {type: PersnPushTricycle}}
+        - contains: {attrs: {type: PersonPushBicycle}}
+        - contains: {attrs: {type: PersonPushMotorcycle}}
+        - contains: {attrs: {type: PersonRideBicycle}}
+        - contains: {attrs: {type: PersonRideMotorcycle}}
+        - contains: {attrs: {type: PersonRideTricycle}}
+        #- contains: {attrs: {type:
+        #- contains: {attrs: {type: WithWheelchair}}
+  ignore_condiction:
+    or:
+    - contains: {attrs: {ignore: "yes"}}
+    - contains: {attrs: {type: PersnPushTricycle}}
+    - contains: {attrs: {type: PersonPushBicycle}}
+    - contains: {attrs: {type: PersonPushMotorcycle}}
+    - contains: {attrs: {type: PersonRideTricycle}}
+  hard_condition:
+    and:
+    - not:
+      contains: {attrs: {ignore: "yes"}}
+    - or:
+      #- contains: {attrs: {occlusion: heavily_occluded}}
+      - contains: {attrs: {occlusion: invisible}}
+      - contains: {attrs: {confidence: Low}}
+      - contains: {attrs: {confidence: VeryLow}}
+      #- contains: {attrs: {type: PersonPushMotorcycle}}
+      #- contains: {attrs: {type: PersonPushBicycle}}
+      #- contains: {attrs: {type: PersnPushTricycle}}
+- id: null
+  match_condition:
+    and: []

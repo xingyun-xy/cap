@@ -1,0 +1,32 @@
+seg_class: 
+  - road 
+  - sidewalk 
+  - fence 
+  - pole
+  - traffic_light
+  - person
+  - car
+  - motorcycle
+  - lane_marking
+  - Crosswalk_Line
+  - Traffic_Arrow
+  - Sign_Line
+  - Guide_Line
+  - Traffic_Cone
+  - Stop_Line
+  - SpeedBumps
+  - parking_column
+  - no_parking_line
+  - slow_down_line
+  - road_text
+  - stop_attention_line
+global_ignore_index: 255
+ignore_index: 255
+metirc_key: 1
+vcs_origin_coord: 1
+target_categorys: 1
+target_x_intervals: 1
+target_y_intervals: 1
+gt_min_x: 1
+gt_max_x: 1
+max_distance: 1

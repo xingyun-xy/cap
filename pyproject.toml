@@ -1,0 +1,35 @@
+[tool.mypy]
+files = ["cap"]
+disallow_untyped_defs = "True"
+ignore_missing_imports = "True"
+show_error_codes = "True"
+warn_redundant_casts = "True"
+warn_unused_configs = "True"
+warn_unused_ignores = "True"
+allow_redefinition = "True"
+follow_imports = "silent"
+follow_imports_for_stubs = "True"
+
+# TODO: Fix typing for these modules
+[[tool.mypy.overrides]]
+module = [
+    "cap.callbacks.*",
+    "cap.core.*",
+    "cap.data.*",
+    "cap.engine.*",
+    "cap.metrics.*",
+    "cap.models.*",
+    "cap.profiler.*",
+    "cap.utils.*",
+    "cap.visualize.*",
+    "cap.evaluation.*",
+    "cap.optimizers.*",
+]
+ignore_errors = "True"
+
+
+[[tool.mypy.overrides]]
+module = [
+    "cap.utils.filesystem",
+]
+ignore_errors = "False"

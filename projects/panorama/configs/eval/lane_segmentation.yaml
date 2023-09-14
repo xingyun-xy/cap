@@ -1,0 +1,17 @@
+seg_class: # class names
+  - road 
+  - dashed 
+  - road_teeth 
+  - double_line
+  - wide_dashed
+  - deceleration_lane
+global_ignore_index: 255
+ignore_index: 255
+metirc_key: 1
+vcs_origin_coord: 1
+target_categorys: 1
+target_x_intervals: 1
+target_y_intervals: 1
+gt_min_x: 1
+gt_max_x: 1
+max_distance: 100

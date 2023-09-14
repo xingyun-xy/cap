@@ -1,0 +1,31 @@
+num_dist: 1  # Length of dist coeffs
+need_eval_categories:
+#  category_names_to_val: [categories_id_in_gt,
+#                          category_id_in_prediction]
+  car: [[2], 0]
+  bus: [[4], 0]
+  truck: [[5], 0]
+  specialcar: [[6], 0]
+eval_camera_names:
+  - cam_all
+  
+metrics: 
+  - dx
+  - dy 
+  - dxy
+  - dw
+  - dl
+  - dxp
+  - dyp
+  - dxyp
+  - dwp
+  - dlp
+  - drot
+  - dxy_10p_error
+  - dcxy
+  - dcxyp
+iou_threshold: 0.2
+score_threshold: 0.1
+depth_intervals: [10,20,50]
+gt_max_depth: 80
+# match_basis: proj2d
