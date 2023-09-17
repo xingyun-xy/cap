@@ -36,7 +36,7 @@ tmp_*
 **/*.pt
 **/*.hbir
 **/*.dot
-**/*.json
+# **/*.json
 **/*.hbm
 **/*.log
 **/*.tar
@@ -105,4 +105,7 @@ projects/pilot/pack_tools/data/
 
 results/
 changan_car/
-ckpts/
+ckpts
+data/*
+
+__pycache__/

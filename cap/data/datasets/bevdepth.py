@@ -4120,7 +4120,9 @@ class CaBev3dDataset(data.Dataset):
             gt_labels.append(
                 self.classes.index(
                     map_name_from_general_to_detection[gt_label]))
-        return torch.Tensor(gt_boxes), torch.tensor(gt_labels)  # box是车身下的坐标
+        # return torch.Tensor(gt_boxes), torch.tensor(gt_labels)  # box是车身下的坐标
+        # TODO
+        return torch.Tensor(np.array(gt_boxes)), torch.tensor(np.array(gt_labels))  # box是车身下的坐标
 
     def choose_cams(self):
         """Choose cameras randomly.

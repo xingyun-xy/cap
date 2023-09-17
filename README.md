@@ -65,6 +65,8 @@ Developers should develop on develop branch.
 ```bash
 export PYTHONPATH=$PYTHONPATH:${PWD}
 python tools/train.py --stage with_bn --config projects/panorama/configs/resize/multitask.py -ids 0
+
+python tools/train.py --stage with_bn --config projects/panorama/configs/resize/multitask.py -ids 0,1,2,3,4,5,6,7
 # debug by debugpy
 pyd tools/train.py --stage with_bn --config projects/panorama/configs/resize/multitask.py -ids 0
 ```

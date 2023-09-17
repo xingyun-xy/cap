@@ -212,7 +212,7 @@ backbone = dict(
     frozen_stages=-1,
     input_ch=3,
     out_features=('stage2', 'stage3', 'stage4', 'stage5'),
-    pretrained='/root/cap-xy/fcos3d_vovnet_imgbackbone-remapped.pth',
+    # pretrained='/root/cap-xy/ckpts/official/fcos3d_vovnet_imgbackbone-remapped.pth',
     __graph_model_name="backbone",
 )
 

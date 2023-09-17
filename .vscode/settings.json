@@ -1,0 +1,13 @@
+// workspace settings
+{
+    "[python]": {
+            "editor.formatOnType": true
+    },
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "GitHub Dark",
+    "workbench.list.openMode": "doubleClick",
+    "explorer.compactFolders": false,
+    "files.exclude": {
+    "**/__pycache__": true
+    },
+}
