@@ -16,7 +16,8 @@ model_thresh = os.getenv("CAP_PILOT_MODEL_THRESH", None)
 tasks = os.getenv("CAP_PILOT_TASKS")
 
 # model info
-model_type = "256_576_r50"
+# model_type = "256_576_r50"
+model_type = "256_576_vov99"
 model_name = "_".join([model_type, model_setting, model_version])
 if model_thresh is not None:
     model_thresh = json.loads(model_thresh)
@@ -64,8 +65,8 @@ if os.path.exists(ds_path):
 is_local_train = not os.path.exists("/running_package")
 
 if is_local_train:
-    batch_size = 6  #设置batchsize
-    bev_batch_size = 16  # refer to n samples
+    batch_size = 1  #设置batchsize
+    bev_batch_size = 1  # refer to n samples
     bev_depth_loss_coeff = 3  # 始终为3，不需要再修改
     log_freq = 5
     # train_save_prefix = "/tmp/model"  #云平台训练保存路径
@@ -75,8 +76,8 @@ if is_local_train:
     # save_prefix = "/code/cap_train_results/panorama/20230421_from_zzj"  #训练保存路径
     # save_prefix = "/code/cap_train_results/panorama/20230425_from_zzj"  #训练保存路径
 else:
-    batch_size = 6
-    bev_batch_size = 6 # refer to n samples
+    batch_size = 1
+    bev_batch_size = 1 # refer to n samples
     bev_depth_loss_coeff = 0.0  #默认3 降到 0.0
     log_freq = 25
     train_save_prefix = "/tmp/model"  # 训练保存路径
@@ -170,123 +171,96 @@ def get_det_rpn_out_keys(mode):
 
 test_roi_num = 100
 
-# common structures
+
+# backbone
+# vovnet backbone
+# 对应的out channels = [256, 512, 768, 1024]
+# need a neck
+# 同时要修改Vovnet代码，把forward的输出从dict改成list
+
+# build_vovnet_backbone = {
+#     'type': 'VoVNet',
+#     'norm': 'BN',
+#     'name': 'V-99-eSE',
+#     'input_ch': 3,
+#     'out_features': ['stage2', 'stage3', 'stage4', 'stage5'],
+#     'with_cp': False,
+# }
+    
+# # vovnet with fpn with p6
 # backbone = dict(
-#     type="VargNetV2Stage2631",
-#     num_classes=1000,
-#     multiplier=0.5,
-#     group_base=4,
-#     last_channels=1024,
-#     stages=(1, 2, 3, 4, 5),
-#     include_top=False,
-#     extend_features=True,
-#     bn_kwargs=bn_kwargs,
-#     __graph_model_name="backbone",
-# )
-
-# fpn_neck = dict(
-#     type="FPN",
-#     in_strides=[2, 4, 8, 16, 32, 64],
-#     in_channels=[16, 16, 32, 64, 128, 128],
-#     out_strides=[4, 8, 16, 32, 64],
-#     out_channels=[16, 32, 64, 128, 128],
-#     bn_kwargs=bn_kwargs,
-#     __graph_model_name="fpn_neck",
-# )
-
-# For ResNet50
-# backbone = dict(
-#     type="ResNet50V2",
-#     num_classes=1000,
-#     group_base=1,
-#     bn_kwargs=bn_kwargs,
-#     bias=True,
-#     extend_features=True,
-#     include_top=False,
-#     flat_output=True,
-#     __graph_model_name="backbone",
-# )
-
-# fpn_neck = dict(
-#     type="FPN",
-#     in_strides=[2, 4, 8, 16, 32, 64],
-#     in_channels=[64, 256, 512, 1024, 2048, 2048],
-#     out_strides=[4, 8, 16, 32, 64],
-#     out_channels=[16, 32, 64, 128, 128],
-#     bn_kwargs=bn_kwargs,
-#     __graph_model_name="fpn_neck",
-# )
-
-# For ResNet18
-# backbone = dict(
-#     type="ResNet18V2",
-#     num_classes=1000,
-#     group_base=4,
-#     bn_kwargs=bn_kwargs,
-#     bias=True,
-#     extend_features=True,
-#     include_top=False,
-#     flat_output=True,
+#     type='VoVNetFPN',
+#     bottom_up_config=build_vovnet_backbone,
+#     in_features=['stage2', 'stage3', 'stage4', 'stage5'],
+#     out_channels=256,
+#     norm='BN',
+#     top_block={'type': 'LastLevelP6',
+#                   'in_channels_top': 256,
+#                   'out_channels': 256,
+#                   'in_features': 'p5',
+#                   },
+#     fuse_type='sum',
+#     size_divisibility_mul_2=True,
+#     checkpoint='/root/cap-xy/depth_pretrained_v99.pth',
 #     __graph_model_name="backbone",
 # )
 
 backbone = dict(
-    type="ResNetBevDepth",
-    depth=50,
-    in_channels=3,
-    stem_channels=None,
-    base_channels=64,
-    num_stages=4,
-    strides=(1, 2, 2, 2),
-    dilations=(1, 1, 1, 1),
-    out_indices=[0, 1, 2, 3],
-    style='pytorch',
-    deep_stem=False,
-    avg_down=False,
-    frozen_stages=0,
-    conv_cfg=None,
-    norm_eval=False,
-    dcn=None,
-    stage_with_dcn=(False, False, False, False),
-    plugins=None,
-    with_cp=False,
-    zero_init_residual=True,
-    pretrained=None,
+    type='VoVNetCP',
+    spec_name='V-99-eSE',
+    norm_eval=True,
+    frozen_stages=-1,
+    input_ch=3,
+    out_features=('stage2', 'stage3', 'stage4', 'stage5'),
+    pretrained='/root/cap-xy/fcos3d_vovnet_imgbackbone-remapped.pth',
     __graph_model_name="backbone",
 )
 
-fpn_neck = dict(
-    type="FPN",
-    in_strides=[2, 4, 8, 16, 32, 64],
-    in_channels=[64, 64, 128, 256, 512, 512],
-    out_strides=[4, 8, 16, 32, 64],
-    out_channels=[16, 32, 64, 128, 128],
-    bn_kwargs=bn_kwargs,
-    __graph_model_name="fpn_neck",
-)
+# fpn_neck=dict(
+#     type='CPFPN',  ### remove unused parameters 
+#     in_channels=[768, 1024],
+#     out_channels=256,
+#     num_outs=2,
+#     norm_cfg=bn_kwargs,
+#     __graph_model_name="fpn_neck",
+# )
 
-# For VargNetV2
 # backbone = dict(
-#     type="VargNetV2",
-#     num_classes=1000,
-#     group_base=4,
-#     bias=True,
-#     extend_features=True,
-#     bn_kwargs=bn_kwargs,
-#     include_top=False,
-#     flat_output=True,
+#     type="ResNetBevDepth",
+#     depth=50,
+#     in_channels=3,
+#     stem_channels=None,
+#     base_channels=64,
+#     num_stages=4,
+#     strides=(1, 2, 2, 2),
+#     dilations=(1, 1, 1, 1),
+#     out_indices=[0, 1, 2, 3],
+#     style='pytorch',
+#     deep_stem=False,
+#     avg_down=False,
+#     frozen_stages=0,
+#     conv_cfg=None,
+#     norm_eval=False,
+#     dcn=None,
+#     stage_with_dcn=(False, False, False, False),
+#     plugins=None,
+#     with_cp=False,
+#     zero_init_residual=True,
+#     pretrained=None,
 #     __graph_model_name="backbone",
 # )
+
 
 # fpn_neck = dict(
 #     type="FPN",
 #     in_strides=[2, 4, 8, 16, 32, 64],
-#     in_channels=[32, 32, 64, 128, 256, 256],
+#     in_channels=[64, 64, 128, 256, 512, 512],
 #     out_strides=[4, 8, 16, 32, 64],
 #     out_channels=[16, 32, 64, 128, 128],
 #     bn_kwargs=bn_kwargs,
 #     __graph_model_name="fpn_neck",
 # )
+
 
 fix_channel_neck = dict(
     type="FixChannelNeck",

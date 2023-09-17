@@ -82,14 +82,22 @@ test_cfg = dict(
 # )
 
 # for r50
+# secondfpn = dict(
+#     type='SECONDFPN',
+#     in_channels=[256, 512, 1024, 2048],
+#     upsample_strides=[0.25, 0.5, 1, 2],
+#     out_channels=[128, 128, 128, 128],
+#     __graph_model_name="second_fpn",
+# )
+
+# for VoVNetCP
 secondfpn = dict(
     type='SECONDFPN',
-    in_channels=[256, 512, 1024, 2048],
+    in_channels=[256, 512, 768, 1024],
     upsample_strides=[0.25, 0.5, 1, 2],
     out_channels=[128, 128, 128, 128],
     __graph_model_name="second_fpn",
 )
-
 
 # region model component config
 MatrixVT = dict(
@@ -102,7 +110,8 @@ MatrixVT = dict(
     output_channels=80,
     downsample_factor=16,
     # depth_net_conf=dict(in_channels=768, mid_channels=768), # for r18
-    depth_net_conf=dict(in_channels=512, mid_channels=512),   # for r50
+    # depth_net_conf=dict(in_channels=512, mid_channels=512),   # for r50
+    depth_net_conf=dict(in_channels=512, mid_channels=512),   # for VoVNetCP
     __graph_model_name="MatrixVT",
 )
 BEVDepthHead = dict(

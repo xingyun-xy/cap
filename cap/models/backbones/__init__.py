@@ -20,6 +20,8 @@ from .vargnetv2 import (
 from .vargnetv2_2631 import VargNetV2Stage2631
 from .resnet_bevdepth import ResNetBevDepth
 from .base_lss_fpn import BaseLSSFPN
+from .vovnet import VoVNet, VoVNetFPN
+from .vovnetcp import VoVNetCP
 
 __all__ = [
     "contrib",
@@ -47,4 +49,7 @@ __all__ = [
     "IResNet180",
     "ResNetBevDepth",
     "BaseLSSFPN",
+    "VoVNet",
+    "VoVNetFPN",
+    "VoVNetCP",
 ]

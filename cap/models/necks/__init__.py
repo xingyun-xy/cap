@@ -13,6 +13,7 @@ from .ufpn import UFPN
 from .unet import Unet
 from .yolov3 import YOLOV3Neck
 from .secondfpn import SECONDFPN
+from .cp_fpn import CPFPN
 
 __all__ = [
     "BiFPN",
@@ -28,4 +29,5 @@ __all__ = [
     "UFPN",
     "FastSCNNNeck",
     "SECONDFPN",
+    "CPFPN",
 ]

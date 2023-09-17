@@ -86,7 +86,8 @@ class SECONDFPN(nn.Module):
         """Forward function.
 
         Args:
-            x (torch.Tensor): 4D Tensor in (N, C, H, W) shape.
+            x (tuple(torch.Tensor]): 
+                Tensor:4D Tensor in (N, C, H, W) shape.
 
         Returns:
             list[torch.Tensor]: Multi-level feature maps.

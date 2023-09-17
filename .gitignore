@@ -22,7 +22,7 @@ htmlcov
 *.swo
 gen.yml
 .mypy_cache
-.vscode
+# .vscode
 tmp_*
 .tmp_*
 .ipynb_checkpoint/*
@@ -105,3 +105,4 @@ projects/pilot/pack_tools/data/
 
 results/
 changan_car/
+ckpts/

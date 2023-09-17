@@ -108,7 +108,17 @@ def load_checkpoint(
     else:
         checkpoint = state_dict
 
+    # TODO
+    checkpoint = replace_state_dict_key(checkpoint)
     return checkpoint
+
+def replace_state_dict_key(state_dict, old_key='img_backbone', 
+                            new_key='backbone'):
+    new_state_dict = dict()
+    for k, v in state_dict.items():
+        new_k = k.replace(old_key, new_key)
+        new_state_dict[new_k] = v
+    return new_state_dict
 
 
 def update_state_dict_by_strip_prefix(

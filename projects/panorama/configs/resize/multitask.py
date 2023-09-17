@@ -180,10 +180,11 @@ with_bn_trainer = dict(
             dict(
                 type="LoadCheckpoint",
                 allow_miss=True,
+                ignore_extra=True, # TODO
                 checkpoint_path=os.path.join(
-                    # "../pth/loss_clip_gridmask_hsv/with_bn-checkpoint-step-60999-d047b463.pth.tar"
-                    # ckpt_dir, "with_bn-checkpoint-step-22999-f3cb349d.pth.tar" #预训练模型
-                    "./256_576_nuscenes_r50.pth.tar"  #当前最优BEV预训练模型
+                #     # "../pth/loss_clip_gridmask_hsv/with_bn-checkpoint-step-60999-d047b463.pth.tar"
+                #     # ckpt_dir, "with_bn-checkpoint-step-22999-f3cb349d.pth.tar" #预训练模型
+                    "/root/cap-xy/fcos3d_vovnet_imgbackbone-remapped.pth"  #当前最优BEV预训练模型
                 ),
             ),
         ],
