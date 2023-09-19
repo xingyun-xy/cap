@@ -106,6 +106,6 @@ projects/pilot/pack_tools/data/
 results/
 changan_car/
 ckpts
-data/*
+data
 
 __pycache__/

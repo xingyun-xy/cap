@@ -32,7 +32,7 @@ num_steps = num_steps[training_step]
 base_lr = base_lr[training_step]
 
 # -------------------------- multitask --------------------------
-seed = None  # random seed
+seed = 0  # random seed
 log_rank_zero_only = True
 cudnn_benchmark = True
 sync_bn = True
@@ -181,11 +181,13 @@ with_bn_trainer = dict(
                 type="LoadCheckpoint",
                 allow_miss=True,
                 ignore_extra=True, # TODO
-                # checkpoint_path=os.path.join(
-                # #     # "../pth/loss_clip_gridmask_hsv/with_bn-checkpoint-step-60999-d047b463.pth.tar"
-                # #     # ckpt_dir, "with_bn-checkpoint-step-22999-f3cb349d.pth.tar" #预训练模型
-                #     "/root/cap-xy/ckpts/official/fcos3d_vovnet_imgbackbone-remapped.pth"  #当前最优BEV预训练模型
-                # ),
+                # checkpoint_path=None,
+                checkpoint_path=os.path.join(
+                #     # "../pth/loss_clip_gridmask_hsv/with_bn-checkpoint-step-60999-d047b463.pth.tar"
+                #     # ckpt_dir, "with_bn-checkpoint-step-22999-f3cb349d.pth.tar" #预训练模型
+                    # "/root/cap-xy/ckpts/official/fcos3d_vovnet_imgbackbone-remapped.pth" 
+                    "/root/cap-xy/ckpts/depth_pretrained_v99.pth"
+                ),
             ),
         ],
     ),

@@ -52,7 +52,7 @@ num_steps = num_steps[training_step]
 base_lr = base_lr[training_step]
 
 # -------------------------- multitask --------------------------
-seed = None  # random seed
+seed = 0  # random seed
 log_rank_zero_only = True
 cudnn_benchmark = True
 sync_bn = True
@@ -173,27 +173,18 @@ W = 1600  # 1600
 final_dim = input_hw
 ida_aug_conf = {
     # 'resize_lim': (0.386, 0.55),
-    "resize_lim": (0.36, 0.38),
-    "final_dim":
-    final_dim,
+    # "resize_lim": (0.55, 0.65), # 512x960
+    "resize_lim": (0.94, 1.25), # 640x1600-vov99
+    "final_dim": final_dim,
     "rot_lim": (-5.4, 5.4),
-    "H":
-    H,
-    "W":
-    W,
-    "rand_flip":
-    True,
+    "H": H,
+    "W": W,
+    "rand_flip": True,
     "bot_pct_lim": (0.0, 0.0),
-    "cams": [
-        "CAM_FRONT_LEFT",
-        "CAM_FRONT",
-        "CAM_FRONT_RIGHT",
-        "CAM_BACK_LEFT",
-        "CAM_BACK",
-        "CAM_BACK_RIGHT",
+    "cams": ["CAM_FRONT_LEFT", "CAM_FRONT", "CAM_FRONT_RIGHT", "CAM_BACK_LEFT",
+        "CAM_BACK", "CAM_BACK_RIGHT",
     ],
-    "Ncams":
-    6,
+    "Ncams": 6,
 }
 bda_aug_conf = {
     "rot_lim": (-22.5, 22.5),
@@ -239,7 +230,7 @@ data_loader = dict(
     type=torch.utils.data.DataLoader,
     sampler=None,
     drop_last=True,
-    num_workers=8,
+    num_workers=4,
     batch_size=bev_batch_size,
     shuffle=False,
     collate_fn=partial(collate_fn_bevdepth, is_return_depth=True),

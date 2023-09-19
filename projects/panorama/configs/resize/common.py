@@ -1,5 +1,6 @@
 import json
 import os
+import os.path as osp
 from copy import deepcopy
 from pathlib import Path
 
@@ -17,7 +18,9 @@ tasks = os.getenv("CAP_PILOT_TASKS")
 
 # model info
 # model_type = "256_576_r50"
-model_type = "256_576_vov99"
+# model_type = "512x960-vov99"
+model_type = "640x1600-vov99"
+
 model_name = "_".join([model_type, model_setting, model_version])
 if model_thresh is not None:
     model_thresh = json.loads(model_thresh)
@@ -64,24 +67,24 @@ if os.path.exists(ds_path):
 
 is_local_train = not os.path.exists("/running_package")
 
-if is_local_train:
-    batch_size = 1  #设置batchsize
-    bev_batch_size = 1  # refer to n samples
-    bev_depth_loss_coeff = 3  # 始终为3，不需要再修改
-    log_freq = 5
-    # train_save_prefix = "/tmp/model"  #云平台训练保存路径
-    train_save_prefix = "/tmp/model"  #本地训练保存路径
-    infer_save_prefix = "/tmp/model"  #本地保存推理
-    # infer_save_prefix = "/tmp/model"
-    # save_prefix = "/code/cap_train_results/panorama/20230421_from_zzj"  #训练保存路径
-    # save_prefix = "/code/cap_train_results/panorama/20230425_from_zzj"  #训练保存路径
-else:
-    batch_size = 1
-    bev_batch_size = 1 # refer to n samples
-    bev_depth_loss_coeff = 0.0  #默认3 降到 0.0
-    log_freq = 25
-    train_save_prefix = "/tmp/model"  # 训练保存路径
-    infer_save_prefix = "/tmp/model"
+# if is_local_train:
+batch_size = 1  #设置batchsize
+bev_batch_size = 4  # refer to n samples
+bev_depth_loss_coeff = 3  # 始终为3，不需要再修改
+log_freq = 5
+# train_save_prefix = "/tmp/model"  #云平台训练保存路径
+train_save_prefix = "/tmp/model"  #本地训练保存路径
+infer_save_prefix = "/tmp/model"  #本地保存推理
+# infer_save_prefix = "/tmp/model"
+# save_prefix = "/code/cap_train_results/panorama/20230421_from_zzj"  #训练保存路径
+# save_prefix = "/code/cap_train_results/panorama/20230425_from_zzj"  #训练保存路径
+# else:
+#     batch_size = 1
+#     bev_batch_size = 16 # refer to n samples
+#     bev_depth_loss_coeff = 0.0  #默认3 降到 0.0
+#     log_freq = 50
+#     train_save_prefix = osp.join("/tmp/model", model_type) 
+#     infer_save_prefix = osp.join("/tmp/model", model_type)
 
 ckpt_dir = Path(train_save_prefix) / model_type
 
@@ -93,8 +96,8 @@ for task in tasks:
 
 lmdb_data = "lmdb" in model_setting.lower()
 
-input_hw = resize_hw = (256, 576)  # 修改输入尺寸
-# input_hw = resize_hw = (512, 960)  # 修改输入尺寸
+# input_hw = resize_hw = (896, 1600)  # 修改输入尺寸
+input_hw = resize_hw = (512, 960)  # 修改输入尺寸
 default_ori_img_shape = torch.tensor([[900, 1600, 3]] * pred_batch_size)
 roi_region = (0, 0, input_hw[1], input_hw[0])
 vanishing_point = (int(input_hw[1] / 2), int(input_hw[0] / 2))
@@ -186,6 +189,15 @@ test_roi_num = 100
 #     'out_features': ['stage2', 'stage3', 'stage4', 'stage5'],
 #     'with_cp': False,
 # }
+backbone = dict(
+    type='VoVNet',
+    norm='BN',
+    name='V-99-eSE',
+    input_ch=3,
+    out_features=['stage2', 'stage3', 'stage4', 'stage5'],
+    with_cp=False,
+    __graph_model_name="backbone",
+)
     
 # # vovnet with fpn with p6
 # backbone = dict(
@@ -205,16 +217,17 @@ test_roi_num = 100
 #     __graph_model_name="backbone",
 # )
 
-backbone = dict(
-    type='VoVNetCP',
-    spec_name='V-99-eSE',
-    norm_eval=True,
-    frozen_stages=-1,
-    input_ch=3,
-    out_features=('stage2', 'stage3', 'stage4', 'stage5'),
-    # pretrained='/root/cap-xy/ckpts/official/fcos3d_vovnet_imgbackbone-remapped.pth',
-    __graph_model_name="backbone",
-)
+# backbone = dict(
+#     type='VoVNetCP',
+#     spec_name='V-99-eSE',
+#     norm_eval=True,
+#     frozen_stages=-1,
+#     input_ch=3,
+#     out_features=('stage2', 'stage3', 'stage4', 'stage5'),
+#     pretrained=None,
+#     # pretrained='/root/cap-xy/ckpts/official/fcos3d_vovnet_imgbackbone-remapped.pth',
+#     __graph_model_name="backbone",
+# )
 
 # fpn_neck=dict(
 #     type='CPFPN',  ### remove unused parameters 

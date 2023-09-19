@@ -69,4 +69,6 @@ python tools/train.py --stage with_bn --config projects/panorama/configs/resize/
 python tools/train.py --stage with_bn --config projects/panorama/configs/resize/multitask.py -ids 0,1,2,3,4,5,6,7
 # debug by debugpy
 pyd tools/train.py --stage with_bn --config projects/panorama/configs/resize/multitask.py -ids 0
+
+TORCH_DISTRIBUTED_DEBUG=DETAIL python tools/train.py --stage with_bn --config projects/panorama/configs/resize/multitask.py -ids 0
 ```

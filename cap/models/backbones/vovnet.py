@@ -397,10 +397,10 @@ class VoVNet(nn.Module):
                 outputs[name] = x
 
         # 如果要直接用Vovnet 这里要修改，从dict改成list
-        # ret = [] # change dict to list
-        # for key in outputs.keys():
-        #     ret.append(outputs[key])
-        return outputs
+        ret = [] # change dict to list
+        for key in outputs.keys():
+            ret.append(outputs[key])
+        return tuple(ret)
 
     def output_shape(self):
         return {

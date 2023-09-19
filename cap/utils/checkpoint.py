@@ -108,11 +108,11 @@ def load_checkpoint(
     else:
         checkpoint = state_dict
 
-    # TODO
+    # TODO checkpoint
     checkpoint = replace_state_dict_key(checkpoint)
     return checkpoint
 
-def replace_state_dict_key(state_dict, old_key='img_backbone', 
+def replace_state_dict_key(state_dict, old_key='bottom_up', 
                             new_key='backbone'):
     new_state_dict = dict()
     for k, v in state_dict.items():
