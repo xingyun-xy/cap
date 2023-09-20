@@ -17,6 +17,8 @@ datapaths = dict(
     bev_depth=dict(
         dict(
             train_data_paths=[
+                # 训练集数量 229400
+
                 # 测试集 3480和3698
                 # dict(
                 #     img_path=osp.join(data_root, "dataset-3180-version-1"),                    

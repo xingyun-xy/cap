@@ -174,7 +174,7 @@ final_dim = input_hw
 ida_aug_conf = {
     # 'resize_lim': (0.386, 0.55),
     # "resize_lim": (0.55, 0.65), # 512x960
-    "resize_lim": (0.94, 1.25), # 640x1600-vov99
+    "resize_lim": (0.94, 1.25), # 640x1600-vov99 TODO xy
     "final_dim": final_dim,
     "rot_lim": (-5.4, 5.4),
     "H": H,

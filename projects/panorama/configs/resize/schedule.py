@@ -10,7 +10,7 @@ if pipeline_test:
     warmup_steps = 0
     save_interval = 5
 else:
-    num_steps = dict(with_bn=200000, )
+    num_steps = dict(with_bn=800000, ) # TODO xy
     warmup_steps = 1
     save_interval = 5000  # 保存间隔
 
