@@ -102,8 +102,8 @@ secondfpn = dict(
 # region model component config
 MatrixVT = dict(
     type="MatrixVT",
-    x_bound=[-51.2, 51.2, 0.4], # BEV256
-    y_bound=[-51.2, 51.2, 0.4],
+    x_bound=[-51.2, 51.2, 0.8], # BEV128
+    y_bound=[-51.2, 51.2, 0.8],
     z_bound=[-5, 3, 8],
     d_bound=[2.0, 58.0, 0.5],
     final_dim=input_hw,

@@ -69,7 +69,7 @@ is_local_train = not os.path.exists("/running_package")
 
 # if is_local_train:
 batch_size = 1  #设置batchsize
-bev_batch_size = 4  # refer to n samples
+bev_batch_size = 3  # refer to n samples
 bev_depth_loss_coeff = 3  # 始终为3，不需要再修改
 log_freq = 5
 # train_save_prefix = "/tmp/model"  #云平台训练保存路径
@@ -88,8 +88,8 @@ infer_save_prefix = "/tmp/model"  #本地保存推理
 
 ckpt_dir = Path(train_save_prefix) / model_type
 
-pred_bev_batch_size = 8
-pred_batch_size = 6
+pred_bev_batch_size = 2
+pred_batch_size = 2
 for task in tasks:
     if task["name"] == "vehicle_heatmap_3d_detection":
         pred_batch_size = 1
@@ -97,7 +97,8 @@ for task in tasks:
 lmdb_data = "lmdb" in model_setting.lower()
 
 # input_hw = resize_hw = (896, 1600)  # 修改输入尺寸
-input_hw = resize_hw = (512, 960)  # 修改输入尺寸
+# input_hw = resize_hw = (512, 960)  # 修改输入尺寸
+input_hw = resize_hw = (640, 1600)  # 修改输入尺寸
 default_ori_img_shape = torch.tensor([[900, 1600, 3]] * pred_batch_size)
 roi_region = (0, 0, input_hw[1], input_hw[0])
 vanishing_point = (int(input_hw[1] / 2), int(input_hw[0] / 2))
