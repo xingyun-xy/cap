@@ -17,7 +17,7 @@ from .version import check_deps, get_tmp_version
 check_deps()
 
 try:
-    from ._version import __version__
+    from .version import __version__
 except Exception:
     __version__ = get_tmp_version()
 
